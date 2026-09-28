@@ -3,6 +3,9 @@
 :root {
   --accent: #F57F28;
   --accent-hover: #d96a12;
+  --action-bg: #a8470b;
+  --action-hover: #873907;
+  --action-fg: #ffffff;
   --ink: #0b0b10;
   --ink-2: #14141a;
   --muted: #63636e;
@@ -104,18 +107,6 @@ section[id], header[id] { scroll-margin-top: 72px; }
   .grid-3 p, .grid-4 p { font-size: 13px !important; line-height: 1.55 !important; }
   /* Feature grid & other single-column layouts that should stay 1-col on small screens because rows have too much text */
   section[id="why"] .grid-3 { grid-template-columns: 1fr !important; }
-  /* CTA buttons: compress + one row on phones */
-  .cta-buttons { flex-wrap: nowrap !important; gap: 8px !important; }
-  .cta-buttons a {
-    padding: 12px 10px !important;
-    font-size: 13px !important;
-    flex: 1 1 0 !important;
-    min-width: 0 !important;
-    text-align: center !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
   section, .section-pad, .hero-inner { padding-left: 18px !important; padding-right: 18px !important; }
   .hero-inner { padding-top: 96px !important; }
   .platform-card { padding: 20px !important; border-radius: 18px !important; }
@@ -131,22 +122,25 @@ section[id], header[id] { scroll-margin-top: 72px; }
     letter-spacing: 0.03em !important;
     padding: 0 4px !important;
   }
-  .hero-cta {
-    gap: 8px !important;
-    flex-wrap: nowrap !important;
-    justify-content: stretch !important;
+  .hero-cta, .cta-buttons {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px !important;
   }
-  .hero-cta a {
-    padding: 12px 8px !important;
-    font-size: 13px !important;
-    text-align: center !important;
-    flex: 1 1 0 !important;
-    min-width: 0 !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+  .hero-cta a, .cta-buttons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px !important;
+    min-height: 48px;
+    font-size: 14px !important;
+    min-width: 0;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    text-align: center;
     border-radius: 10px !important;
   }
+  .hero-cta a:first-child, .cta-buttons a:first-child { grid-column: 1 / -1; }
   #hc-navbtn { padding: 7px 12px !important; font-size: 12.5px !important; border-radius: 8px !important; }
   #hc-logo { height: 30px !important; }
   .hc-nav > div { padding: 12px 16px !important; gap: 10px !important; }
@@ -172,5 +166,19 @@ section[id], header[id] { scroll-margin-top: 72px; }
   html { scroll-behavior: auto; }
   [data-reveal] { opacity: 1 !important; transform: none !important; }
 }
-</content>
-</invoke>
+
+
+/* Opaque action surfaces keep labels readable over the moving hero video. */
+.hero-cta a:first-child { background: var(--action-bg) !important; color: var(--action-fg) !important; }
+.hero-cta a:first-child:hover { background: var(--action-hover) !important; }
+.hero-cta a:not(:first-child), .cta-buttons a:not(:first-child) {
+  background: #ffffff !important;
+  color: #15434b !important;
+}
+.hero-cta a:not(:first-child):hover, .cta-buttons a:not(:first-child):hover { background: #e5f3f1 !important; }
+.cta-buttons a:first-child { color: var(--action-bg) !important; }
+.hero-cta a:focus-visible, .cta-buttons a:focus-visible, .hc-nav-cta:focus-visible {
+  outline: 3px solid #15434b;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 4px #ffffff;
+}

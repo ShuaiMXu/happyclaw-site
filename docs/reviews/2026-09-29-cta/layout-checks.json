@@ -1,0 +1,175 @@
+[
+  {
+    "width": 320,
+    "buttons": [
+      {
+        "text": "在线试用",
+        "fits": true,
+        "background": "rgb(168, 71, 11)"
+      },
+      {
+        "text": "View on GitHub ↗",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "联系商务",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "在线试用",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "⭐ Star on GitHub",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "联系商务",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      }
+    ],
+    "overflow": [
+      {
+        "tag": "VIDEO",
+        "class": ""
+      },
+      {
+        "tag": "DIV",
+        "class": "hover:!border-[color:rgba(245,127,40,0.5)] hover:-translate-y-1"
+      },
+      {
+        "tag": "BUTTON",
+        "class": ""
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "buttons": [
+      {
+        "text": "在线试用",
+        "fits": true,
+        "background": "rgb(168, 71, 11)"
+      },
+      {
+        "text": "View on GitHub ↗",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "联系商务",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "在线试用",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "⭐ Star on GitHub",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "联系商务",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      }
+    ],
+    "overflow": [
+      {
+        "tag": "VIDEO",
+        "class": ""
+      }
+    ],
+    "ctaViolations": []
+  },
+  {
+    "width": 768,
+    "buttons": [
+      {
+        "text": "在线试用",
+        "fits": true,
+        "background": "rgb(168, 71, 11)"
+      },
+      {
+        "text": "View on GitHub ↗",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "联系商务",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "在线试用",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "⭐ Star on GitHub",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "联系商务",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      }
+    ],
+    "overflow": [
+      {
+        "tag": "VIDEO",
+        "class": ""
+      }
+    ]
+  },
+  {
+    "width": 1280,
+    "buttons": [
+      {
+        "text": "在线试用",
+        "fits": true,
+        "background": "rgb(168, 71, 11)"
+      },
+      {
+        "text": "View on GitHub ↗",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "联系商务",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "在线试用",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "⭐ Star on GitHub",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      },
+      {
+        "text": "联系商务",
+        "fits": true,
+        "background": "rgb(255, 255, 255)"
+      }
+    ],
+    "overflow": [
+      {
+        "tag": "VIDEO",
+        "class": ""
+      }
+    ]
+  }
+]

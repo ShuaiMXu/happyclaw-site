@@ -13,6 +13,8 @@ const value=name=>{const index=process.argv.indexOf(name);return index<0?undefin
 assert.ok(url?.startsWith('http'),'Pass --url for a running real page');await mkdir(out,{recursive:true});
 const browser=await chromium.launch({channel:process.env.BROWSER_CHANNEL||'chrome',headless:true});
 const expectedAssets=['chat-tool-tracking.png','chat-markdown.png','chat-image-gen.png','mobile-login.png','mobile-groups.png','mobile-monitor.png','mobile-settings.png','feishu-chat.png','feishu-card-reply.png'];
+// Original 90ae406 diagram labels: extraction changes layout, not product facts.
+const expectedArchitecture=['接入层','飞书','Telegram','Web UI','主进程','路由分发','任务队列','会话调度','WebSocket','执行层','宿主机进程','Docker 沙箱','运行时','Claude Agent SDK','MCP Tools','流式输出','存储层','SQLite','会话记忆','文件系统'];
 const findings=[],errors=[];
 try {
   for(const width of [320,390,768,1280]){
@@ -22,6 +24,8 @@ try {
     assert.equal(await page.locator('#capabilities dt').count(),10,'All original capability claims remain');
     assert.deepEqual((await page.locator('#screenshots img').evaluateAll(imgs=>imgs.map(i=>i.getAttribute('src').split('/').pop()))).sort(),expectedAssets.toSorted());
     assert.equal(await page.locator('.architecture-mobile > li').count(),5);
+    assert.deepEqual(await page.locator('.architecture-mobile h3, .architecture-mobile > li > ul > li').allTextContents(),expectedArchitecture,'All original architecture names survive extraction');
+    assert.deepEqual(await page.locator('#architecture svg text').allTextContents(),expectedArchitecture,'Desktop and mobile retain the same original content');
     assert.equal(await page.locator('.architecture-mobile').isVisible(),width<1024);
     if(width<768){
       await page.locator('#menu-toggle').click();assert.equal(await page.locator('#menu-toggle').getAttribute('aria-expanded'),'true');assert.equal(await page.locator('.menu-close-icon').isVisible(),true);

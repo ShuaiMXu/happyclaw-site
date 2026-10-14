@@ -1,0 +1,14 @@
+---
+interface Props { src: string; alt: string; caption: string; width: number; height: number; id: string; }
+const {src, alt, caption, width, height, id} = Astro.props;
+---
+<figure data-shot={id}>
+  <a href={src} target="_blank" rel="noopener" aria-label={'查看原图：' + caption}><img src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" /></a>
+  <figcaption><span>{caption}</span><a href={src} target="_blank" rel="noopener" class="original-link">查看原图<span class="sr-only">：{caption}</span></a></figcaption>
+</figure>
+<style>
+  figure { min-width: 0; }
+  img { display: block; width: 100%; height: auto; background: var(--color-surface); border: 1px solid var(--color-outline); border-radius: var(--radius-panel); }
+  figcaption { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2); margin-top: var(--space-3); font-size: var(--type-caption); color: var(--color-muted); }
+  .original-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-accent); text-decoration: underline; text-underline-offset: 4px; }
+</style>

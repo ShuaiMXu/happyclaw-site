@@ -1,0 +1,39 @@
+---
+interface Props { id: string; title: string; command: string; }
+const {id, title, command} = Astro.props;
+---
+<li class="command-step" data-command-step={id}>
+  <div class="step-heading"><h3>{title}</h3><button type="button" class="button button-secondary" data-copy-command={command} aria-label={'复制' + title + '命令'} aria-describedby={'copy-status-' + id}>复制命令</button></div>
+  <pre><code>{command}</code></pre>
+  <p id={'copy-status-' + id} role="status" aria-live="polite" class="copy-status"></p>
+</li>
+<style>
+  .command-step { padding: var(--space-6); background: var(--color-surface-deep); border: 1px solid var(--color-outline); border-radius: var(--radius-panel); min-width: 0; }
+  .step-heading { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4); }
+  h3 { font-weight: 600; }
+  button { flex-shrink: 0; font-size: var(--type-caption); padding-inline: var(--space-4); }
+  pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--color-accent); font-size: var(--type-caption); line-height: 1.7; }
+  .copy-status { min-height: 1.5em; font-size: var(--type-caption); margin-top: var(--space-3); color: var(--color-success); }
+  .copy-status[data-error] { color: var(--color-error); }
+</style>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-command]').forEach(button => {
+    button.addEventListener('click', async () => {
+      const status = document.getElementById(button.getAttribute('aria-describedby') || '');
+      if (!status || button.disabled) return;
+      status.removeAttribute('data-error'); status.textContent = '正在复制命令…';
+      button.disabled = true; button.setAttribute('aria-busy', 'true');
+      let timeout: number | undefined;
+      try {
+        if (!navigator.clipboard) throw new Error('Clipboard unavailable');
+        await Promise.race([
+          navigator.clipboard.writeText(button.dataset.copyCommand || ''),
+          new Promise<void>((_, reject) => { timeout = window.setTimeout(() => reject(new Error('Copy result timeout')), 5000); }),
+        ]);
+        status.textContent = '命令已复制';
+      } catch {
+        status.setAttribute('data-error', ''); status.textContent = '暂未确认复制结果，请选中上方命令手动复制。';
+      } finally { window.clearTimeout(timeout); button.disabled = false; button.removeAttribute('aria-busy'); }
+    });
+  });
+</script>

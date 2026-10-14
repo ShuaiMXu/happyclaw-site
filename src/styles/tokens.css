@@ -1,0 +1,37 @@
+/* Normative HappyClaw tokens. DESIGN.md documents these values, not a second theme. */
+@theme static {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --color-canvas: #0f172a;
+  --color-surface: #172340;
+  --color-surface-deep: #020617;
+  --color-ink: #f8fafc;
+  --color-muted: #cbd5e1;
+  --color-subtle: #a7b4c8;
+  --color-outline: #334155;
+  --color-accent: #5eead4;
+  --color-action: #0f766e;
+  --color-action-hover: #115e59;
+  --color-success: #99f6e4;
+  --color-error: #fda4af;
+}
+:root {
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --section-space: clamp(4rem, 7vw, 6rem);
+  --content-wide: 72rem;
+  --content-reading: 48rem;
+  --radius-control: 0.75rem;
+  --radius-panel: 1rem;
+  --type-heading: clamp(1.75rem, 3vw, 2.25rem);
+  --type-display: clamp(3rem, 6vw, 4.5rem);
+  --type-body: 1rem;
+  --type-caption: 0.875rem;
+  --line-body: 1.65;
+  --motion-duration: 160ms;
+  --motion-ease: ease-out;
+}

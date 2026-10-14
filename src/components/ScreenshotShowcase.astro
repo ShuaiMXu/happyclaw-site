@@ -1,101 +1,61 @@
 ---
-const webScreenshots = [
-  { src: '/screenshots/chat-tool-tracking.png', alt: 'Chat Tool Tracking' },
-  { src: '/screenshots/chat-markdown.png', alt: 'Chat Markdown' },
-  { src: '/screenshots/chat-image-gen.png', alt: 'Chat Image Generation' },
-];
-
-const mobileScreenshots = [
-  { src: '/screenshots/mobile-login.png', alt: 'Mobile Login', label: '登录' },
-  { src: '/screenshots/mobile-groups.png', alt: 'Mobile Groups', label: '群组' },
-  { src: '/screenshots/mobile-monitor.png', alt: 'Mobile Monitor', label: '监控' },
-  { src: '/screenshots/mobile-settings.png', alt: 'Mobile Settings', label: '设置' },
-];
-
-const feishuScreenshots = [
-  { src: '/screenshots/feishu-chat.png', alt: 'Feishu Chat' },
-  { src: '/screenshots/feishu-card-reply.png', alt: 'Feishu Card Reply' },
-];
+import SectionHeading from './ui/SectionHeading.astro';
+import ScreenshotFigure from './ui/ScreenshotFigure.astro';
+import {screenshots} from '../data/screenshots';
+const channels = [
+  {id: 'web', label: 'Web 界面', description: '在浏览器中查看工具调用、Markdown 回复和图片生成结果。'},
+  {id: 'mobile', label: '移动端', description: '通过手机登录、查看群组、监控任务并调整设置。'},
+  {id: 'feishu', label: '飞书集成', description: '在飞书中对话，并通过卡片查看回复。'},
+] as const;
 ---
-
-<section id="screenshots" class="py-24 px-4">
-  <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">产品截图</h2>
-
-  <!-- Tab Buttons -->
-  <div class="flex justify-center gap-2 mb-12">
-    <button data-tab="web" class="px-6 py-2 rounded-full text-sm font-medium transition-colors bg-teal-600 text-white">Web 界面</button>
-    <button data-tab="mobile" class="px-6 py-2 rounded-full text-sm font-medium transition-colors text-slate-400 hover:text-white bg-white/5">移动端</button>
-    <button data-tab="feishu" class="px-6 py-2 rounded-full text-sm font-medium transition-colors text-slate-400 hover:text-white bg-white/5">飞书集成</button>
+<section id="screenshots" class="site-section">
+  <SectionHeading title="产品截图" description="查看实际界面；需要读取细节时，可以打开原图。" />
+  <div role="tablist" aria-label="产品截图渠道" class="channel-tabs">
+    {channels.map((channel, index) => <button type="button" id={'tab-' + channel.id} role="tab" data-tab={channel.id} aria-selected={index === 0 ? 'true' : 'false'} aria-controls={'panel-' + channel.id} tabindex={index === 0 ? 0 : -1}>{channel.label}</button>)}
   </div>
-
-  <!-- Tab 1: Web -->
-  <div data-panel="web">
-    <div class="rounded-xl overflow-hidden border border-white/10 shadow-2xl max-w-5xl mx-auto">
-      <div class="bg-slate-800 px-4 py-3 flex items-center gap-2">
-        <span class="w-3 h-3 rounded-full bg-red-500"></span>
-        <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-        <span class="w-3 h-3 rounded-full bg-green-500"></span>
-        <span class="flex-1 text-center text-sm text-slate-400">happyclaw.cc</span>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-slate-950">
-        {webScreenshots.map((s) => (
-          <img src={s.src} alt={s.alt} loading="lazy" class="rounded-lg w-full" />
-        ))}
-      </div>
+  {channels.map((channel, index) => <div id={'panel-' + channel.id} data-panel={channel.id} role="tabpanel" aria-labelledby={'tab-' + channel.id} hidden={index !== 0} tabindex="0" class="content-wide">
+    <p class="channel-description">{channel.description}</p>
+    <div class:list={['shot-grid', channel.id]}>
+      {screenshots[channel.id].map(shot => <ScreenshotFigure {...shot} />)}
     </div>
-  </div>
-
-  <!-- Tab 2: Mobile -->
-  <div data-panel="mobile" class="hidden">
-    <div class="flex justify-center gap-6 flex-wrap">
-      {mobileScreenshots.map((s) => (
-        <div class="flex flex-col items-center">
-          <div class="relative w-[180px] md:w-[200px] rounded-[2rem] border-4 border-slate-700 bg-slate-950 p-2 shadow-xl">
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-slate-700 rounded-b-xl"></div>
-            <img src={s.src} alt={s.alt} loading="lazy" class="rounded-2xl w-full mt-4" />
-          </div>
-          <span class="text-xs text-slate-400 text-center mt-2">{s.label}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-
-  <!-- Tab 3: Feishu -->
-  <div data-panel="feishu" class="hidden">
-    <div class="rounded-xl overflow-hidden border border-white/10 shadow-2xl max-w-4xl mx-auto">
-      <div class="bg-slate-800 px-4 py-3 flex items-center gap-2">
-        <span class="w-3 h-3 rounded-full bg-red-500"></span>
-        <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-        <span class="w-3 h-3 rounded-full bg-green-500"></span>
-        <span class="flex-1 text-center text-sm text-slate-400">飞书</span>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-slate-950">
-        {feishuScreenshots.map((s) => (
-          <img src={s.src} alt={s.alt} loading="lazy" class="rounded-lg w-full" />
-        ))}
-      </div>
-    </div>
-  </div>
+  </div>)}
 </section>
-
+<style>
+  .channel-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2); margin-bottom: var(--space-8); }
+  [role='tab'] { min-height: 44px; padding: var(--space-3) var(--space-4); border: 1px solid var(--color-outline); border-radius: var(--radius-control); color: var(--color-muted); background: transparent; font-size: var(--type-caption); transition: background-color var(--motion-duration) var(--motion-ease); }
+  [role='tab']:hover { background: var(--color-surface); }
+  [role='tab'][aria-selected='true'] { background: var(--color-action); color: var(--color-ink); border-color: var(--color-accent); font-weight: 600; }
+  [hidden] { display: none; }
+  .channel-description { color: var(--color-muted); margin-bottom: var(--space-6); }
+  .shot-grid { display: grid; gap: var(--space-8); }
+  .mobile { max-width: 20rem; margin-inline: auto; }
+  @media (min-width: 768px) {
+    .web { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .web :global(figure:first-child) { grid-column: 1 / -1; }
+    .mobile { max-width: none; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .feishu { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>
 <script>
-  const tabs = document.querySelectorAll('[data-tab]');
-  const panels = document.querySelectorAll('[data-panel]');
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const target = (tab as HTMLElement).dataset.tab;
-      tabs.forEach(t => {
-        const el = t as HTMLElement;
-        el.classList.toggle('bg-teal-600', el.dataset.tab === target);
-        el.classList.toggle('text-white', el.dataset.tab === target);
-        el.classList.toggle('text-slate-400', el.dataset.tab !== target);
-        el.classList.toggle('bg-white/5', el.dataset.tab !== target);
-      });
-      panels.forEach(p => {
-        const el = p as HTMLElement;
-        el.classList.toggle('hidden', el.dataset.panel !== target);
-      });
+  const tablist = document.querySelector<HTMLElement>('#screenshots [role="tablist"]');
+  const tabs = [...(tablist?.querySelectorAll<HTMLButtonElement>('[role="tab"]') || [])];
+  const panels = document.querySelectorAll<HTMLElement>('#screenshots [role="tabpanel"]');
+  function selectTab(tab: HTMLButtonElement, focus = false) {
+    tabs.forEach(item => { const selected = item === tab; item.setAttribute('aria-selected', String(selected)); item.tabIndex = selected ? 0 : -1; });
+    panels.forEach(panel => { panel.hidden = panel.id !== tab.getAttribute('aria-controls'); });
+    if (focus) tab.focus();
+  }
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', event => {
+      let next = index;
+      if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+      else if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = tabs.length - 1;
+      else return;
+      event.preventDefault(); selectTab(tabs[next], true);
     });
   });
 </script>
+<noscript><p class="content-wide text-muted">启用 JavaScript 可切换渠道，也可以直接查看 <a class="text-accent underline" href="/screenshots/mobile-groups.png">移动端原图</a> 和 <a class="text-accent underline" href="/screenshots/feishu-chat.png">飞书原图</a>。</p></noscript>

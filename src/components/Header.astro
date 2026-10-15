@@ -28,7 +28,29 @@ import {navigation} from '../data/navigation';
   updateHeaderHeight();
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
+  const background = [...document.querySelectorAll<HTMLElement>('main, footer')];
+  let previousInert: boolean[] = [];
+  let previousOverflow = '';
+  let isOpen = false;
   const setMenuOpen = (open: boolean) => {
+    if (open === isOpen) return;
+    isOpen = open;
+    if (open) {
+      previousInert = background.map(element => element.inert);
+      previousOverflow = document.documentElement.style.overflow;
+      background.forEach(element => { element.inert = true; });
+      document.documentElement.style.overflow = 'hidden';
+      header?.setAttribute('role', 'dialog');
+      header?.setAttribute('aria-modal', 'true');
+      header?.setAttribute('aria-label', '网站导航');
+    } else {
+      background.forEach((element, index) => { element.inert = previousInert[index]; });
+      document.documentElement.style.overflow = previousOverflow;
+      header?.removeAttribute('role');
+      header?.removeAttribute('aria-modal');
+      header?.removeAttribute('aria-label');
+    }
+    header?.toggleAttribute('data-menu-open', open);
     menu?.classList.toggle('hidden', !open);
     toggle?.setAttribute('aria-expanded', String(open));
     toggle?.setAttribute('aria-label', open ? '关闭菜单' : '菜单');
@@ -41,9 +63,19 @@ import {navigation} from '../data/navigation';
     a.addEventListener('click', () => setMenuOpen(false))
   );
   document.addEventListener('keydown', event => {
+    if (event.key === 'Tab' && isOpen && header) {
+      const controls = [...header.querySelectorAll<HTMLElement>('a[href], button')].filter(element => element.getClientRects().length);
+      const first = controls[0], last = controls.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    }
     if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { setMenuOpen(false); toggle.focus(); }
   });
-  window.matchMedia('(min-width: 768px)').addEventListener('change', event => { if (event.matches) setMenuOpen(false); });
+  window.matchMedia('(min-width: 768px)').addEventListener('change', event => { if (event.matches) {
+    const focusedMenu = isOpen && (document.activeElement === toggle || menu?.contains(document.activeElement));
+    setMenuOpen(false);
+    if (focusedMenu) header?.querySelector<HTMLElement>('.header-brand')?.focus();
+  } });
 </script>
 <style>
   .site-header { position: fixed; top: 0; width: 100%; z-index: 50; padding-inline: var(--space-4); background: color-mix(in srgb, var(--color-canvas) 80%, transparent); backdrop-filter: blur(24px); border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent); }
@@ -56,7 +88,8 @@ import {navigation} from '../data/navigation';
   .menu-close-icon { display: none; }
   #menu-toggle[aria-expanded='true'] .menu-open-icon { display: none; }
   #menu-toggle[aria-expanded='true'] .menu-close-icon { display: block; }
-  .mobile-menu { background: color-mix(in srgb, var(--color-canvas) 95%, transparent); }
+  .site-header[data-menu-open] { height: 100dvh; overflow-y: auto; background: var(--color-canvas); }
+  .mobile-menu { background: var(--color-canvas); }
   .mobile-links { display: flex; flex-direction: column; gap: var(--space-4); padding-block: var(--space-4); }
   @media (min-width: 768px) { .desktop-nav { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); } #menu-toggle, .mobile-menu { display: none; } }
 </style>

@@ -9,9 +9,9 @@ const {id, title, command} = Astro.props;
 </li>
 <style>
   .command-step { padding: var(--space-6); background: var(--color-surface-deep); border: 1px solid var(--color-outline); border-radius: var(--radius-panel); min-width: 0; }
-  .step-heading { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4); }
-  h3 { font-weight: 600; }
-  button { flex-shrink: 0; font-size: var(--type-caption); padding-inline: var(--space-4); }
+  .step-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4); }
+  h3 { flex: 1 1 10ch; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
+  button { flex-shrink: 0; max-width: 100%; font-size: var(--type-caption); padding-inline: var(--space-3); }
   pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--color-accent); font-size: var(--type-caption); line-height: 1.7; }
   .copy-status { min-height: 1.5em; font-size: var(--type-caption); margin-top: var(--space-3); color: var(--color-success); }
   .copy-status[data-error] { color: var(--color-error); }

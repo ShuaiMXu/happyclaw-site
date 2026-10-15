@@ -9,11 +9,11 @@ const highlights = [
 <section id="features" class="site-section">
   <SectionHeading title="核心优势" description="把完整 Agent 运行时、多端接入和用户隔离放在同一套自托管系统里。" />
   <div class="content-wide grid gap-8 md:grid-cols-3">
-    {highlights.map((item, index) => <div class="highlight"><span class="text-accent font-mono" aria-hidden="true">0{index + 1}</span><h3>{item.title}</h3><p>{item.description}</p></div>)}
+    {highlights.map((item, index) => <div class="highlight"><span class="text-accent font-mono" aria-hidden="true">0{index + 1}</span><h3 class="group-title">{item.title}</h3><p>{item.description}</p></div>)}
   </div>
 </section>
 <style>
   .highlight { padding-left: var(--space-6); border-left: 1px solid var(--color-outline); }
-  h3 { font-size: 1.25rem; line-height: 1.45; font-weight: 600; margin: var(--space-3) 0; }
+  h3 { margin: var(--space-3) 0; }
   p { font-size: var(--type-caption); color: var(--color-muted); }
 </style>

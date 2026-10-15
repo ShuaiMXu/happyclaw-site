@@ -4,16 +4,17 @@ const {id, title, command} = Astro.props;
 ---
 <li class="command-step" data-command-step={id}>
   <div class="step-heading"><h3>{title}</h3><button type="button" class="button button-secondary" data-copy-command={command} aria-label={'复制' + title + '命令'} aria-describedby={'copy-status-' + id}>复制命令</button></div>
-  <pre><code>{command}</code></pre>
+  <pre tabindex="0" role="region" aria-label={title + "命令，可横向滚动查看完整内容"}><code>{command}</code></pre>
   <p id={'copy-status-' + id} role="status" aria-live="polite" class="copy-status"></p>
 </li>
 <style>
-  .command-step { padding: var(--space-6); background: var(--color-surface-deep); border: 1px solid var(--color-outline); border-radius: var(--radius-panel); min-width: 0; }
-  .step-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4); }
-  h3 { flex: 1 1 10ch; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
+  .command-step { padding: var(--space-4); background: var(--color-surface-deep); border: 1px solid var(--color-outline); border-radius: var(--radius-panel); min-width: 0; }
+  .step-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-2); }
+  h3 { flex: 1 1 10ch; min-width: 0; font-weight: 600; }
   button { flex-shrink: 0; max-width: 100%; font-size: var(--type-caption); padding-inline: var(--space-3); }
-  pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--color-accent); font-size: var(--type-caption); line-height: 1.7; }
-  .copy-status { min-height: 1.5em; font-size: var(--type-caption); margin-top: var(--space-3); color: var(--color-success); }
+  pre { margin: 0; white-space: pre; overflow-x: auto; padding-block: var(--space-2); color: var(--color-accent); font-size: var(--type-caption); line-height: 1.7; }
+  .copy-status { font-size: var(--type-caption); margin-top: var(--space-3); color: var(--color-success); }
+  .copy-status:empty { margin-top: 0; }
   .copy-status[data-error] { color: var(--color-error); }
 </style>
 <script>

@@ -52,7 +52,8 @@ try {
     for(const [index,command] of commands.entries()){
       const button=page.locator('[data-copy-command]').nth(index);await button.click();await page.getByRole('status').nth(index).filter({hasText:'命令已复制'}).waitFor();
       assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),command,'Real Clipboard API receives the original single-line command');
-      assert.equal(await page.locator('pre').nth(index).evaluate(e=>e.scrollWidth<=e.clientWidth+1),true,'The entire command wraps in its visible code area');
+      assert.equal(await page.locator('pre').nth(index).textContent(),command,'The complete original command remains selectable');
+      assert.equal(await page.locator('pre').nth(index).evaluate(e=>{const s=getComputedStyle(e);return s.whiteSpace==='pre'&&s.overflowX==='auto'&&e.getBoundingClientRect().right<=innerWidth;}),true,'Long commands scroll within the card without splitting tokens or overflowing the page');
     }
     await page.evaluate(()=>Object.defineProperty(navigator.clipboard,'writeText',{configurable:true,value:()=>Promise.reject(new DOMException('Permission denied','NotAllowedError'))}));
     await page.locator('[data-copy-command]').first().click();await page.locator('#copy-status-clone').filter({hasText:'手动复制'}).waitFor();assert.equal(await page.locator('[data-copy-command]').first().isEnabled(),true);

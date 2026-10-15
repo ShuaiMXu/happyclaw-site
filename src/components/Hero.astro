@@ -2,7 +2,7 @@
 import BrandMark from './ui/BrandMark.astro';
 import GitHubIcon from './ui/GitHubIcon.astro';
 ---
-<section id="hero" class="min-h-dvh relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900 to-teal-950">
+<section id="hero" class="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900 to-teal-950">
   <!-- Floating blobs -->
   <div class="absolute top-20 left-10 w-[400px] h-[400px] rounded-full bg-teal-500/10 blur-3xl animate-drift"></div>
   <div class="absolute top-60 right-20 w-[350px] h-[350px] rounded-full bg-amber-500/10 blur-3xl animate-drift delay-300"></div>
@@ -10,8 +10,8 @@ import GitHubIcon from './ui/GitHubIcon.astro';
   <div class="absolute bottom-20 right-10 w-[300px] h-[300px] rounded-full bg-teal-400/15 blur-3xl animate-drift delay-100"></div>
 
   <!-- Content -->
-  <div class="relative z-10 flex items-center justify-center flex-col hero-content pb-20 min-h-dvh px-4">
-    <div class="animate-fade-in-up flex flex-col items-center text-center">
+  <div class="relative z-10 flex items-center justify-center flex-col hero-content px-4">
+    <div class="hero-intro animate-fade-in-up flex flex-col items-center text-center">
       <BrandMark variant="hero" showName={false} />
       <h1 class="display-title bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">
         HappyClaw
@@ -19,13 +19,13 @@ import GitHubIcon from './ui/GitHubIcon.astro';
       <p class="text-xl md:text-2xl text-accent font-medium mt-4">
         自托管多用户 AI Agent 系统
       </p>
-      <p class="text-muted text-base md:text-lg mt-4 max-w-2xl text-center">
+      <p class="text-muted text-base md:text-lg mt-4 max-w-2xl text-center hero-description">
         基于 Claude Code 驱动，通过飞书、Telegram 和 Web 随时访问
       </p>
-      <div class="flex flex-col sm:flex-row gap-4 mt-8">
+      <div class="hero-actions">
         <a
           href="#quickstart"
-          class="button button-primary px-8"
+          class="button button-primary"
         >
           快速开始
         </a>
@@ -33,7 +33,7 @@ import GitHubIcon from './ui/GitHubIcon.astro';
           href="https://github.com/riba2534/happyclaw"
           target="_blank"
           rel="noopener"
-          class="button button-secondary px-8"
+          class="button button-secondary"
         >
           <GitHubIcon />
           GitHub
@@ -44,5 +44,8 @@ import GitHubIcon from './ui/GitHubIcon.astro';
 </section>
 
 <style>
-  .hero-content { padding-top: calc(var(--header-height, 4.75rem) + var(--space-12) + var(--space-1)); }
+  .hero-content { padding-top: calc(var(--header-height, 4.75rem) + clamp(3rem, 6vw, 5rem)); padding-bottom: clamp(3rem, 6vw, 5rem); }
+  .hero-intro { width: 100%; max-width: 48rem; }
+  .hero-description { text-wrap: pretty; }
+  .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3); margin-top: var(--space-8); }
 </style>

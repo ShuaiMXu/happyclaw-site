@@ -43,6 +43,7 @@ spacing:
 rounded:
   control: "12px"
   panel: "16px"
+  brand: "8px"
 components:
   button-primary:
     backgroundColor: "{colors.action}"
@@ -76,7 +77,7 @@ Success 与 Error 必须配合状态文字，不依赖颜色。Logo 与产品截
 
 ## Layout
 
-内容容器72rem，部署阅读容器48rem；左右留白至少16px。区域间距为 `clamp(4rem, 7vw, 6rem)`，组内使用4px基础步长。768px起采用多列；手机以自然阅读顺序单列排列。架构列表保留到1024px才切换为桌面图，避免中间尺寸再次压小文字。定位偏移由 HTML 的80px滚动留白处理，共用标题保持同一字号和段间距。
+内容容器72rem，部署阅读容器48rem；左右留白至少16px。区域间距为 `clamp(4rem, 7vw, 6rem)`，组内使用4px基础步长。768px起采用多列；手机以自然阅读顺序单列排列。架构列表保留到1024px才切换为桌面图，避免中间尺寸再次压小文字。导航与内容共用72rem容器。导航栏高度由 ResizeObserver 记录，锚点留白使用实际栏高加4px；展开菜单不改变 Hero 布局。字体放大时允许品牌文字换行、桌面导航换行和步骤动作换行，命令、访问地址与页脚链接不得制造页面横向溢出。共用标题保持同一字号和段间距。
 
 三条核心优势说明定位；十项具体能力按运行、接入、管理分组，以描述列表承载细节，避免第二套等权卡片。Web 截图以一张大图带领，其余作为次级证据；手机截图单列展示，均可打开原图。所有图片有真实固有尺寸，加载后不应改变已预留的位置。
 
@@ -86,12 +87,15 @@ Success 与 Error 必须配合状态文字，不依赖颜色。Logo 与产品截
 
 ## Shapes
 
-控制项圆角12px，命令和图片面板圆角16px。所有动作入口最小高度44px。圆角取决于角色，不为每个区块独立设值。
+控制项圆角12px，命令和图片面板圆角16px。所有动作入口最小高度44px（`--control-size`），文字扩大时内容与 padding 可以增加高度。紧凑 Logo 固有显示32px，菜单图标24px位于44px触控目标中；它们是图形，不以根字号成倍撑大导航。圆角取决于角色，不为每个区块独立设值。
 
 ## Components
 
 | 组件 / 正本 | 输入与职责 | 当前复用 |
 | --- | --- | --- |
+| `ui/BrandMark.astro` | `variant: compact/hero`, `showName`；Logo 尺寸、名称与圆角 | 导航、Hero、页脚；3处 |
+| `ui/GitHubIcon.astro` | `size: small/regular`；同一个装饰性 SVG 路径 | 桌面导航、手机导航、Hero；3处 |
+| `data/navigation.ts` | 桌面与手机共用目的地和标签 | 两个导航布局 |
 | `ui/SectionHeading.astro` | `title`, 可选 `description`；区域标题与说明 | 优势、截图、能力、架构、部署、技术栈 |
 | `ui/CapabilityGroup.astro` | `title`, `items`；语义化能力描述列表 | 运行与工具、接入与隔离、管理与部署 |
 | `ui/ScreenshotFigure.astro` | 原始 `src/alt/caption/width/height/id`；预留比例、说明与原图入口 | 全部9张原始渠道截图 |
@@ -105,7 +109,7 @@ Success 与 Error 必须配合状态文字，不依赖颜色。Logo 与产品截
 
 命令步骤覆盖默认、悬停、按下、键盘焦点、复制中禁用、成功与错误。拒绝或5秒内没有确认结果时，保留可选择的原始命令并显示手动复制指引；成功仅在 Clipboard API 完成之后出现。标签和导航没有异步请求，不虚构加载/成功/错误态。
 
-交互过渡160ms/ease-out，原有 Hero 漂移动效保持；`prefers-reduced-motion` 下关闭平滑滚动并缩短动画/过渡。功能内容默认可见，不依赖进入视口的 JavaScript 才显示。
+导航、页脚和按钮共用160ms/ease-out；小组标题共用 `--type-subheading`、`--line-subheading`。原有 Hero 漂移动效保持；`prefers-reduced-motion` 下共享过渡 token 改为0s、关闭两个已知 Hero 动画与平滑滚动，不对所有未来组件施加全局动画清零。功能内容默认可见，不依赖进入视口的 JavaScript 才显示。
 
 ## Do's and Don'ts
 
@@ -116,3 +120,16 @@ Success 与 Error 必须配合状态文字，不依赖颜色。Logo 与产品截
 - OJO、Taste、Impeccable 的完整包由 Creative OS Harness 提供并固定版本。本仓库不复制缩写规则或重写原 Skill，也不自动运行它们的安装器、CLI或全局 hooks。
 
 文档采用 [DESIGN.md 格式](https://raw.githubusercontent.com/google-labs-code/design.md/main/docs/spec.md)，主题变量使用项目现有的 [Tailwind 4 机制](https://tailwindcss.com/docs/theme)，复制反馈依据 [Clipboard.writeText](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText) 的真实完成或拒绝结果。
+
+
+## 本轮组件状态与例外（2026-10-15）
+
+| 组件 | 适用状态 / 验证 | 不适用项 |
+| --- | --- | --- |
+| Header / navigation | 默认、悬停、焦点、菜单开关、Escape、锚点跳转、断点变化、200%文字重排 | 无异步请求，不制造加载、失败态 |
+| BrandMark / GitHubIcon | 紧凑/大图变体；Logo有正确固有尺寸；名称可断行；图标不重复朗读 | 图形本身不是按钮，交互由外层链接承担 |
+| CommandStep | 默认、悬停、按下、焦点、复制中禁用、成功、拒绝/超时恢复；完整命令和放大后的布局 | 固定三条部署步骤，没有异步列表空态 |
+| ScreenshotShowcase / ScreenshotFigure | 三渠道、键盘切换、原图入口与焦点；保留全部9张原图 | 截图不是官网中可操作的完整应用页面，不能证明图中业务操作成功 |
+| SectionHeading / CapabilityGroup / FeatureGrid / Architecture / TechStack | 静态内容、响应式与文字重排；同角色标题沿用同一 scale | 不因 Grid 名称被判作异步 collection；没有加载、失败或重试业务 |
+
+上述是源码与浏览器验证记录，不是自动生成的 Foundation Approval。状态扫描器的“未分类”“未声明”“缺少异步列表状态”保留为待解释观察，不把静态内容强行改成异步组件。Hero 原有环境色、光晕和渐变标题是现有品牌表达的局部例外，不被本轮 token 收口伪装成新视觉方向。

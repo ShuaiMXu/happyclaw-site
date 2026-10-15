@@ -27,6 +27,11 @@
   --content-reading: 48rem;
   --radius-control: 0.75rem;
   --radius-panel: 1rem;
+  --radius-brand: 0.5rem;
+  --control-size: 44px;
+  --type-brand: 1.125rem;
+  --type-subheading: 1.25rem;
+  --line-subheading: 1.45;
   --type-heading: clamp(1.75rem, 3vw, 2.25rem);
   --type-display: clamp(3rem, 6vw, 4.5rem);
   --type-body: 1rem;

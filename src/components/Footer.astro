@@ -1,10 +1,12 @@
-<footer class="py-12 px-4">
-  <div class="h-px bg-gradient-to-r from-transparent via-teal-500/50 to-transparent"></div>
+---
+import BrandMark from './ui/BrandMark.astro';
+---
+<footer class="site-footer">
+  <div class="footer-divider"></div>
 
-  <div class="max-w-6xl mx-auto text-center mt-12">
+  <div class="content-wide text-center mt-12">
     <div class="flex items-center justify-center gap-2 mb-6">
-      <img src="/logo.png" class="h-8 w-8 rounded-lg" alt="" width="2048" height="2048" />
-      <span class="font-bold text-lg">HappyClaw</span>
+      <BrandMark />
     </div>
 
     <div class="flex justify-center gap-6 mb-6 footer-links">
@@ -12,19 +14,19 @@
         href="https://github.com/riba2534/happyclaw"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-sm text-muted hover:text-accent transition-colors"
+        class="navigation-link"
       >GitHub</a>
       <a
         href="https://github.com/riba2534/happyclaw/issues"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-sm text-muted hover:text-accent transition-colors"
+        class="navigation-link"
       >Issues</a>
       <a
         href="https://github.com/riba2534/happyclaw/blob/main/LICENSE"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-sm text-muted hover:text-accent transition-colors"
+        class="navigation-link"
       >License</a>
     </div>
 
@@ -32,5 +34,7 @@
   </div>
 </footer>
 <style>
-  .footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
+  .site-footer { padding: var(--space-12) var(--space-4); }
+  .footer-links { flex-wrap: wrap; }
+  .footer-divider { height: 1px; background: linear-gradient(to right, transparent, color-mix(in srgb, var(--color-accent) 50%, transparent), transparent); }
 </style>

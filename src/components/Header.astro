@@ -1,67 +1,38 @@
 ---
+import BrandMark from './ui/BrandMark.astro';
+import GitHubIcon from './ui/GitHubIcon.astro';
+import {navigation} from '../data/navigation';
 ---
-<header class="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-xl border-b border-white/10">
-  <nav aria-label="主要导航" class="max-w-7xl mx-auto flex items-center justify-between py-4 px-4 md:px-8">
-    <a href="/" class="flex items-center gap-2">
-      <img src="/logo.png" alt="" width="2048" height="2048" class="h-8 w-8 rounded-lg" />
-      <span class="font-bold text-lg">HappyClaw</span>
-    </a>
-
-    <!-- Desktop nav -->
-    <div class="hidden md:flex items-center gap-6">
-      <a href="#features" class="text-sm text-muted hover:text-accent transition-colors">特性</a>
-      <a href="#screenshots" class="text-sm text-muted hover:text-accent transition-colors">截图</a>
-      <a href="#quickstart" class="text-sm text-muted hover:text-accent transition-colors">快速开始</a>
-      <a
-        href="https://github.com/riba2534/happyclaw"
-        target="_blank"
-        rel="noopener"
-        class="text-sm text-muted hover:text-accent transition-colors flex items-center gap-1"
-      >
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-        </svg>
-        GitHub
-      </a>
+<header class="site-header">
+  <nav aria-label="主要导航" class="header-nav content-wide">
+    <a href="/" class="header-brand"><BrandMark /></a>
+    <div class="desktop-nav">
+      {navigation.map(item => <a href={item.href} class="navigation-link" target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined}>{item.external && <GitHubIcon size="small" />}{item.label}</a>)}
     </div>
-
-    <!-- Mobile hamburger -->
-    <button id="menu-toggle" type="button" class="md:hidden min-h-11 min-w-11 p-2 text-muted hover:text-white" aria-label="菜单" aria-controls="mobile-menu" aria-expanded="false">
-      <svg aria-hidden="true" class="menu-open-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
-      <svg aria-hidden="true" class="menu-close-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" /></svg>
+    <button id="menu-toggle" type="button" aria-label="菜单" aria-controls="mobile-menu" aria-expanded="false">
+      <svg aria-hidden="true" class="menu-open-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+      <svg aria-hidden="true" class="menu-close-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" /></svg>
     </button>
   </nav>
-
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden md:hidden bg-slate-900/95 backdrop-blur-xl border-b border-white/10">
-    <div class="flex flex-col px-4 py-4 gap-4">
-      <a href="#features" class="text-sm text-muted hover:text-accent transition-colors">特性</a>
-      <a href="#screenshots" class="text-sm text-muted hover:text-accent transition-colors">截图</a>
-      <a href="#quickstart" class="text-sm text-muted hover:text-accent transition-colors">快速开始</a>
-      <a
-        href="https://github.com/riba2534/happyclaw"
-        target="_blank"
-        rel="noopener"
-        class="text-sm text-muted hover:text-accent transition-colors flex items-center gap-1"
-      >
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-        </svg>
-        GitHub
-      </a>
+  <div id="mobile-menu" class="hidden mobile-menu">
+    <div class="mobile-links content-wide">
+      {navigation.map(item => <a href={item.href} class="navigation-link" target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined}>{item.external && <GitHubIcon size="small" />}{item.label}</a>)}
     </div>
   </div>
 </header>
-
 <script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const navigationBar = header?.querySelector('nav');
+  const updateHeaderHeight = () => { if (navigationBar) document.documentElement.style.setProperty('--header-height', `${navigationBar.getBoundingClientRect().height + 1}px`); };
+  if (header) new ResizeObserver(updateHeaderHeight).observe(header);
+  updateHeaderHeight();
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
   const setMenuOpen = (open: boolean) => {
     menu?.classList.toggle('hidden', !open);
     toggle?.setAttribute('aria-expanded', String(open));
     toggle?.setAttribute('aria-label', open ? '关闭菜单' : '菜单');
+    updateHeaderHeight();
   };
   toggle?.addEventListener('click', () =>
     setMenuOpen(toggle.getAttribute('aria-expanded') !== 'true')
@@ -75,8 +46,17 @@
   window.matchMedia('(min-width: 768px)').addEventListener('change', event => { if (event.matches) setMenuOpen(false); });
 </script>
 <style>
-  nav a, #mobile-menu a { min-height: 44px; display: inline-flex; align-items: center; }
+  .site-header { position: fixed; top: 0; width: 100%; z-index: 50; padding-inline: var(--space-4); background: color-mix(in srgb, var(--color-canvas) 80%, transparent); backdrop-filter: blur(24px); border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent); }
+  .header-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); padding-block: var(--space-4); }
+  .header-brand { display: inline-flex; align-items: center; min-width: 0; min-height: var(--control-size); max-width: calc(100% - var(--control-size) - var(--space-3)); }
+  .desktop-nav { display: none; }
+  #menu-toggle { flex-shrink: 0; width: var(--control-size); min-height: var(--control-size); padding: 8px; color: var(--color-muted); transition: color var(--motion-duration) var(--motion-ease); }
+  #menu-toggle:hover { color: var(--color-ink); }
+  #menu-toggle svg { width: 24px; height: 24px; }
   .menu-close-icon { display: none; }
   #menu-toggle[aria-expanded='true'] .menu-open-icon { display: none; }
   #menu-toggle[aria-expanded='true'] .menu-close-icon { display: block; }
+  .mobile-menu { background: color-mix(in srgb, var(--color-canvas) 95%, transparent); }
+  .mobile-links { display: flex; flex-direction: column; gap: var(--space-4); padding-block: var(--space-4); }
+  @media (min-width: 768px) { .desktop-nav { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); } #menu-toggle, .mobile-menu { display: none; } }
 </style>

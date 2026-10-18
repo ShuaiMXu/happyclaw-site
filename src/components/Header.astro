@@ -3,7 +3,7 @@ import BrandMark from './ui/BrandMark.astro';
 import GitHubIcon from './ui/GitHubIcon.astro';
 import {navigation} from '../data/navigation';
 ---
-<header class="site-header">
+<div class="site-header" role="banner">
   <nav aria-label="主要导航" class="header-nav content-wide">
     <a href="/" class="header-brand"><BrandMark /></a>
     <div class="desktop-nav">
@@ -19,7 +19,7 @@ import {navigation} from '../data/navigation';
       {navigation.map(item => <a href={item.href} class="navigation-link" target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined}>{item.external && <GitHubIcon size="small" />}{item.label}</a>)}
     </div>
   </div>
-</header>
+</div>
 <script>
   const header = document.querySelector<HTMLElement>('.site-header');
   const navigationBar = header?.querySelector('nav');
@@ -46,7 +46,7 @@ import {navigation} from '../data/navigation';
     } else {
       background.forEach((element, index) => { element.inert = previousInert[index]; });
       document.documentElement.style.overflow = previousOverflow;
-      header?.removeAttribute('role');
+      header?.setAttribute('role', 'banner');
       header?.removeAttribute('aria-modal');
       header?.removeAttribute('aria-label');
     }

@@ -40,7 +40,7 @@ try{
    const heroPadding=await page.locator('.hero-content').evaluate(e=>getComputedStyle(e).paddingTop);await page.locator('#menu-toggle').click();
    assert.equal(await page.locator('.hero-content').evaluate(e=>getComputedStyle(e).paddingTop),heroPadding,'Opening an overlay menu must not move hero content');
    await page.locator('#mobile-menu a[href="#quickstart"]').press('Enter');
-   await page.waitForFunction(()=>{const top=document.querySelector('#quickstart').getBoundingClientRect().top,bottom=document.querySelector('header').getBoundingClientRect().bottom;return top>=bottom-1&&top<=bottom+12});
+   await page.waitForFunction(()=>{const top=document.querySelector('#quickstart').getBoundingClientRect().top,bottom=document.querySelector('.site-header').getBoundingClientRect().bottom;return top>=bottom-1&&top<=bottom+12});
    await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement===document.querySelector('[data-copy-command]')),true,'Keyboard navigation continues into the selected section');
   }else await page.locator('#quickstart').scrollIntoViewIfNeeded();
   await page.screenshot({path:join(out,`normal-${width}.png`)});checks.push({width,normal,motion});await context.close();

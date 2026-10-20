@@ -137,3 +137,19 @@ Success 与 Error 必须配合状态文字，不依赖颜色。Logo 与产品截
 ## 审阅顺序
 
 先在正常字号下检查桌面和手机整页，再逐区域检查密度、对齐、自然换行、共享组件及关键操作。320px与768px补查中间边界。最后单独记录200%文字放大的观察，不用压力测试替代正常视觉审阅，不为通过它而拆碎品牌、单词或命令。正常检查失败不能由辅助通过抵消；辅助问题如需修复，单独确认范围并复核正常界面。
+
+## Spacing 与部署提示的来源约定
+
+这一节补充现有实现的使用位置，不新增品牌方向或视觉数值。间距正本见 [tokens.css](src/styles/tokens.css)，共享布局见 [global.css](src/styles/global.css)。
+
+| 使用位置 | 现有规则 | 源码依据 |
+| --- | --- | --- |
+| 区域上下留白 | `--section-space: clamp(3rem, 5vw, 4rem)` | `.site-section` 使用该变量 |
+| 区域左右留白、命令卡片内边距 | `--space-4: 1rem` | `.site-section` 与 [CommandStep](src/components/ui/CommandStep.astro) 的 `.command-step` |
+| 标题与复制按钮之间、标题行下方 | `--space-3: 0.75rem` | CommandStep 的 `.step-heading` |
+| 复制反馈与命令之间 | `--space-2: 0.5rem`；空反馈时不预留上边距 | CommandStep 的 `.copy-status` 与 `:empty` |
+| 部署步骤阅读宽度 | `--content-reading: 48rem` | [QuickStart](src/components/QuickStart.astro) 使用共享 `.content-reading` |
+
+[QuickStart](src/components/QuickStart.astro) 的环境准备说明属于操作前提，放在步骤之前；三条原始命令按顺序完整展示。复制中、已复制和未确认结果属于当前操作反馈，由 [CommandStep](src/components/ui/CommandStep.astro) 的 `role="status"` 区域展示；初始空反馈不以占位提示增加卡片高度。失败时保留原命令和手动复制指引，不能用成功文案覆盖失败。长命令在可聚焦的 `pre` 内横向滚动，不强制按字符折行。
+
+这些是可追溯的源码约定，浏览器实测和人工 Foundation 批准另行记录；新增规范版本不能自动继承旧模型建议的有效性。

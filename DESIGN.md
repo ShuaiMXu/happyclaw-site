@@ -146,8 +146,9 @@ Success 与 Error 必须配合状态文字，不依赖颜色。Logo 与产品截
 | --- | --- | --- |
 | 区域上下留白 | `--section-space: clamp(3rem, 5vw, 4rem)` | `.site-section` 使用该变量 |
 | 区域左右留白、命令卡片内边距 | `--space-4: 1rem` | `.site-section` 与 [CommandStep](src/components/ui/CommandStep.astro) 的 `.command-step` |
-| 标题与复制按钮之间、标题行下方 | `--space-3: 0.75rem` | CommandStep 的 `.step-heading` |
-| 复制反馈与命令之间 | `--space-2: 0.5rem`；空反馈时不预留上边距 | CommandStep 的 `.copy-status` 与 `:empty` |
+| 标题与复制按钮之间 | `--space-3: 0.75rem` | CommandStep 的 `.step-heading` 的 `gap` |
+| 标题行下方 | `--space-2: 0.5rem` | CommandStep 的 `.step-heading` 的 `margin-bottom` |
+| 复制反馈与命令之间 | `--space-3: 0.75rem`；空反馈时不预留上边距 | CommandStep 的 `.copy-status` 与 `:empty` |
 | 部署步骤阅读宽度 | `--content-reading: 48rem` | [QuickStart](src/components/QuickStart.astro) 使用共享 `.content-reading` |
 
 [QuickStart](src/components/QuickStart.astro) 的环境准备说明属于操作前提，放在步骤之前；三条原始命令按顺序完整展示。复制中、已复制和未确认结果属于当前操作反馈，由 [CommandStep](src/components/ui/CommandStep.astro) 的 `role="status"` 区域展示；初始空反馈不以占位提示增加卡片高度。失败时保留原命令和手动复制指引，不能用成功文案覆盖失败。长命令在可聚焦的 `pre` 内横向滚动，不强制按字符折行。

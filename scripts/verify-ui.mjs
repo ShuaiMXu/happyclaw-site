@@ -55,6 +55,27 @@ try {
       assert.equal(await page.locator('pre').nth(index).textContent(),command,'The complete original command remains selectable');
       assert.equal(await page.locator('pre').nth(index).evaluate(e=>{const s=getComputedStyle(e);return s.whiteSpace==='pre'&&s.overflowX==='auto'&&e.getBoundingClientRect().right<=innerWidth;}),true,'Long commands scroll within the card without splitting tokens or overflowing the page');
     }
+    const commandSteps=page.locator('[data-command-step]');
+    assert.equal(await commandSteps.count(),3);
+    for(const step of await commandSteps.all()){
+      const pre=step.locator('pre'),hintRow=step.locator('[data-scroll-hint-row]'),hint=step.locator('[data-scroll-hint]');
+      const hasOverflow=await pre.evaluate(e=>e.scrollWidth>e.clientWidth);
+      assert.equal(await hintRow.isHidden(),!hasOverflow,'Scroll hint row only reserves space for overflowing commands');
+      if(hasOverflow){
+        assert.equal(await hint.isVisible(),true,'Overflow hint is visible at the start');
+        await pre.evaluate(e=>{e.scrollLeft=e.scrollWidth;e.dispatchEvent(new Event('scroll'));});
+        assert.equal(await hint.isHidden(),true,'Overflow hint text hides at the end');
+        assert.equal(await hintRow.isHidden(),false,'Overflow hint row keeps its height at the end');
+        await pre.evaluate(e=>{e.scrollLeft=0;e.dispatchEvent(new Event('scroll'));});
+        assert.equal(await hint.isVisible(),true,'Overflow hint returns at the start');
+      } else {
+        assert.equal(await hint.isHidden(),true,'Short commands do not show a hint');
+      }
+    }
+    await page.setViewportSize({width:390,height:844});
+    await page.waitForTimeout(50);
+    assert.equal(await page.locator('[data-command-step]').first().locator('[data-scroll-hint-row]').isHidden(),false,'Resize re-evaluates command overflow');
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true,'Scroll hint does not create page-wide horizontal overflow');
     await page.evaluate(()=>Object.defineProperty(navigator.clipboard,'writeText',{configurable:true,value:()=>Promise.reject(new DOMException('Permission denied','NotAllowedError'))}));
     await page.locator('[data-copy-command]').first().click();await page.locator('#copy-status-clone').filter({hasText:'手动复制'}).waitFor();assert.equal(await page.locator('[data-copy-command]').first().isEnabled(),true);
     await page.locator('[data-copy-command]').first().focus();await page.keyboard.press('Tab');await page.keyboard.press('Shift+Tab');

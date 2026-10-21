@@ -5,6 +5,9 @@ const {id, title, command} = Astro.props;
 <li class="command-step" data-command-step={id}>
   <div class="step-heading"><h3>{title}</h3><button type="button" class="button button-secondary" data-copy-command={command} aria-label={'复制' + title + '命令'} aria-describedby={'copy-status-' + id}>复制命令</button></div>
   <pre tabindex="0" role="region" aria-label={title + "命令，可横向滚动查看完整内容"}><code>{command}</code></pre>
+  <div class="scroll-hint-row" data-scroll-hint-row hidden>
+    <p class="scroll-hint" data-scroll-hint hidden>横向滚动查看完整命令。</p>
+  </div>
   <p id={'copy-status-' + id} role="status" aria-live="polite" class="copy-status"></p>
 </li>
 <style>
@@ -13,11 +16,32 @@ const {id, title, command} = Astro.props;
   h3 { flex: 1 1 10ch; min-width: 0; font-weight: 600; }
   button { flex-shrink: 0; max-width: 100%; font-size: var(--type-caption); padding-inline: var(--space-3); }
   pre { margin: 0; white-space: pre; overflow-x: auto; padding-block: var(--space-2); color: var(--color-accent); font-size: var(--type-caption); line-height: 1.7; }
+  .scroll-hint-row { min-height: calc(var(--type-caption) * 1.7); margin-top: var(--space-2); }
+  .scroll-hint { margin: 0; color: var(--color-muted); font-size: var(--type-caption); line-height: 1.7; }
   .copy-status { font-size: var(--type-caption); margin-top: var(--space-3); color: var(--color-success); }
   .copy-status:empty { margin-top: 0; }
   .copy-status[data-error] { color: var(--color-error); }
 </style>
 <script>
+  document.querySelectorAll<HTMLElement>('[data-command-step]').forEach(step => {
+    const pre = step.querySelector<HTMLPreElement>('pre');
+    const hintRow = step.querySelector<HTMLElement>('[data-scroll-hint-row]');
+    const hint = step.querySelector<HTMLElement>('[data-scroll-hint]');
+    if (!pre || !hintRow || !hint) return;
+
+    const updateScrollHint = () => {
+      const hasOverflow = pre.scrollWidth > pre.clientWidth;
+      const hasMoreContent = pre.scrollLeft + pre.clientWidth < pre.scrollWidth - 1;
+      step.toggleAttribute('data-has-scroll-hint', hasOverflow);
+      hintRow.hidden = !hasOverflow;
+      hint.hidden = !hasMoreContent;
+    };
+
+    pre.addEventListener('scroll', updateScrollHint, {passive: true});
+    window.addEventListener('resize', updateScrollHint);
+    updateScrollHint();
+  });
+
   document.querySelectorAll<HTMLButtonElement>('[data-copy-command]').forEach(button => {
     button.addEventListener('click', async () => {
       const status = document.getElementById(button.getAttribute('aria-describedby') || '');
